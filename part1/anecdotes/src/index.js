@@ -15,7 +15,7 @@ const anecdotes = [
 
 ReactDOM.render(
   <React.StrictMode>
-    <App anecdotes={anecdotes} />
+    <App anecdotes={anecdotes}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
