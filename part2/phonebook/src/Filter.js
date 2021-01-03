@@ -1,5 +1,4 @@
 import React from "react";
-import App from "./App";
 
 const Filter = (props) => {
     const {filter, handleFilterChange} = props;

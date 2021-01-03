@@ -1,27 +1,32 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Filter from "./Filter";
 import PersonsForm from "./PersonsForm";
 import Persons from "./Persons";
+import axios from "axios";
 
 const App = () => {
-    const [persons, setPersons] = useState([
-        {name: 'Arto Hellas'},
-        {name: 'Bello Tela'},
-        {name: 'Stella Hela'},
-        {name: 'Jella Fela'}
-    ])
+    const [persons, setPersons] = useState([])
     const [personsShown, setPersonsShown] = useState(persons)
 
     const [newName, setNewName] = useState('');
     const [newPhone, setNewPhone] = useState('');
     const [filter, setFilter] = useState('');
 
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/persons')
+            .then(response => {
+                setPersons(response.data)
+                setPersonsShown(response.data)
+            })
+    }, [])
+
     const handleSubmit = (evt) => {
         evt.preventDefault();
 
-        if(persons.some((person) => {
+        if (persons.some((person) => {
             return person.name === newName;
-        })){
+        })) {
             alert(`${newName} is already added to phonebook`)
             return;
         }
@@ -53,7 +58,7 @@ const App = () => {
     return (
         <div style={{marginLeft: '20px'}}>
             <h2>Phonebook</h2>
-            <Filter filter={filter} handleFilterChange={handleFilterChange} />
+            <Filter filter={filter} handleFilterChange={handleFilterChange}/>
 
             <PersonsForm
                 newName={newName}
@@ -64,7 +69,13 @@ const App = () => {
             />
 
             <h2>Numbers</h2>
-            <Persons personsShown={personsShown} />
+            <Persons personsShown={personsShown}/>
+
+            {/*<p>*/}
+            {/*    <strong>DEBUG</strong>*/}
+            {/*    {JSON.stringify(persons)}*/}
+            {/*</p>*/}
+
         </div>
     )
 }
