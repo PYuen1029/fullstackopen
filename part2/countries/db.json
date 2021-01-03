@@ -1,0 +1,91 @@
+{
+  "london": {
+    "coord": {
+      "lon": -0.13,
+      "lat": 51.51
+    },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04n"
+      }
+    ],
+    "base": "stations",
+    "main": {
+      "temp": 4.06,
+      "feels_like": 0.61,
+      "temp_min": 3.33,
+      "temp_max": 5,
+      "pressure": 1019,
+      "humidity": 75
+    },
+    "visibility": 10000,
+    "wind": {
+      "speed": 2.1,
+      "deg": 0
+    },
+    "rain": {
+      "1h": 0.1
+    },
+    "clouds": {
+      "all": 75
+    },
+    "dt": 1609709349,
+    "sys": {
+      "type": 1,
+      "id": 1414,
+      "country": "GB",
+      "sunrise": 1609661148,
+      "sunset": 1609689839
+    },
+    "timezone": 0,
+    "id": 2643743,
+    "name": "London",
+    "cod": 200
+  },
+  "helsinki": {
+    "coord": {
+      "lon": 24.94,
+      "lat": 60.17
+    },
+    "weather": [
+      {
+        "id": 600,
+        "main": "Snow",
+        "description": "light snow",
+        "icon": "13n"
+      }
+    ],
+    "base": "stations",
+    "main": {
+      "temp": -2.96,
+      "feels_like": -7.29,
+      "temp_min": -3.33,
+      "temp_max": -2.78,
+      "pressure": 1025,
+      "humidity": 92
+    },
+    "visibility": 10000,
+    "wind": {
+      "speed": 2.6,
+      "deg": 350
+    },
+    "clouds": {
+      "all": 75
+    },
+    "dt": 1609710029,
+    "sys": {
+      "type": 1,
+      "id": 1332,
+      "country": "FI",
+      "sunrise": 1609658571,
+      "sunset": 1609680377
+    },
+    "timezone": 7200,
+    "id": 658225,
+    "name": "Helsinki",
+    "cod": 200
+  }
+}
