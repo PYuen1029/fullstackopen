@@ -6,18 +6,24 @@ import axios from "axios";
 
 function App() {
     const [filter, setFilter] = useState('')
+    const setFilterLowercase = (filter) => {
+        setFilter(filter.toLowerCase())
+    }
+
     const [countries, setCountries] = useState([])
 
     const handleFilterChange = (evt) => {
-        setFilter(evt.target.value.toLowerCase());
+        setFilterLowercase(evt.target.value);
     }
+
+    const handleCountrySelect = ((evt) => {
+        let selectedCountry = evt.target.getAttribute('data-country-name').toLowerCase();
+        setFilterLowercase(selectedCountry)
+    })
 
     useEffect(() => {
         axios.get('https://restcountries.eu/rest/v2/all')
             .then((response) => {
-                console.group("DEBUG: Line 13");
-                console.dir(response.data);
-                console.groupEnd();
                 setCountries(response.data);
             })
     }, [])
@@ -25,9 +31,9 @@ function App() {
     const displayedCountries = countries.filter((country) => country.name.toLowerCase().indexOf(filter) !== -1);
 
     let result = (<span>TOO MANY RESULTS</span>);
+
     if (displayedCountries.length === 1) {
         let country = displayedCountries[0];
-
         result = (
             <div>
                 <h3>{country.name}</h3>
@@ -44,7 +50,9 @@ function App() {
         result = (
             <div>
                 {displayedCountries.map((val) =>
-                    (<p>{val.name}</p>)
+                    (
+                        <p>{val.name} <button onClick={handleCountrySelect} data-country-name={val.name} >show</button> </p>
+                    )
                 )}
             </div>
         )
