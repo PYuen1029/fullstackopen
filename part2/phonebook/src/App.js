@@ -1,4 +1,7 @@
 import React, {useState} from 'react'
+import Filter from "./Filter";
+import PersonsForm from "./PersonsForm";
+import Persons from "./Persons";
 
 const App = () => {
     const [persons, setPersons] = useState([
@@ -12,14 +15,6 @@ const App = () => {
     const [newName, setNewName] = useState('');
     const [newPhone, setNewPhone] = useState('');
     const [filter, setFilter] = useState('');
-
-    const handleNameChange = (evt) => {
-        setNewName(evt.target.value);
-    }
-
-    const handlePhoneChange = (evt) => {
-        setNewPhone(evt.target.value);
-    }
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -37,6 +32,10 @@ const App = () => {
                 number: newPhone
             })
         )
+        setPersonsShown(persons.concat({
+            name: newName,
+            number: newPhone
+        }))
     }
 
     const handleFilterChange = (evt) => {
@@ -54,30 +53,18 @@ const App = () => {
     return (
         <div style={{marginLeft: '20px'}}>
             <h2>Phonebook</h2>
-            <div>
-                filter shown with: <input value={filter} onChange={handleFilterChange}/>
-            </div>
+            <Filter filter={filter} handleFilterChange={handleFilterChange} />
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    name: <input value={newName} onChange={handleNameChange}/>
-                </div>
-                <div>
-                    number: <input value={newPhone} onChange={handlePhoneChange}/>
-                </div>
-                <div>
-                    <button type="submit">add</button>
-                </div>
-            </form>
+            <PersonsForm
+                newName={newName}
+                setNewName={setNewName}
+                newPhone={newPhone}
+                setNewPhone={setNewPhone}
+                handleSubmit={handleSubmit}
+            />
+
             <h2>Numbers</h2>
-            {personsShown.map((person) => {
-                return (
-                    <p key={person.name}>{person.name} {person.number}</p>
-                )
-            })}
-
-            <h5>debug: {filter}</h5>
-            <h5>debug: {JSON.stringify(personsShown)}</h5>
+            <Persons personsShown={personsShown} />
         </div>
     )
 }
