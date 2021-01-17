@@ -10,6 +10,7 @@ const App = () => {
     const [newName, setNewName] = useState('');
     const [newPhone, setNewPhone] = useState('');
     const [filter, setFilter] = useState('');
+    const [error, setError] = useState('');
 
     // set personsShown to if filter then persons, else persons.filter filter
     const personsShown = filter.length > 0 ?
@@ -59,8 +60,16 @@ const App = () => {
         setFilter(newFilter.toLowerCase());
     };
 
+    const errorStyle = {
+        backgroundColor: "#ff3d3d"
+    }
+
     return (
         <div style={{marginLeft: '20px'}}>
+            <div style={errorStyle}>
+                <p>{error}</p>
+            </div>
+
             <h2>Phonebook</h2>
             <Filter filter={filter} handleFilterChange={handleFilterChange}/>
 
@@ -73,7 +82,11 @@ const App = () => {
             />
 
             <h2>Numbers</h2>
-            <Persons personsShown={personsShown} setPersons={setPersons} persons={persons}/>
+            <Persons personsShown={personsShown}
+                     setPersons={setPersons}
+                     persons={persons}
+                     setError={setError}
+            />
         </div>
     )
 }

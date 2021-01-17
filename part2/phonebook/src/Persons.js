@@ -2,7 +2,7 @@ import React from "react";
 import personsApi from "./services/persons";
 
 const Persons = (props) => {
-    const {personsShown, setPersons, persons} = props;
+    const {personsShown, setError, setPersons, persons} = props;
 
     const handleDelete = (id, name) => {
         window.confirm(`You sure you want to delete ${name}?`)
@@ -12,6 +12,13 @@ const Persons = (props) => {
                 setPersons(
                     persons.filter(person => person.id !== id)
                 )
+            }).catch(error => {
+                setError(`${name} was not found on the server.`)
+
+                personsApi.getAll()
+                    .then(response => {
+                        setPersons(response.data)
+                    })
             })
     }
 
