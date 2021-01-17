@@ -2,57 +2,61 @@ import React, {useState, useEffect} from 'react'
 import Filter from "./Filter";
 import PersonsForm from "./PersonsForm";
 import Persons from "./Persons";
-import axios from "axios";
+import personsApi from "./services/persons";
 
 const App = () => {
     const [persons, setPersons] = useState([])
-    const [personsShown, setPersonsShown] = useState(persons)
 
     const [newName, setNewName] = useState('');
     const [newPhone, setNewPhone] = useState('');
     const [filter, setFilter] = useState('');
 
+    // set personsShown to if filter then persons, else persons.filter filter
+    const personsShown = filter.length > 0 ?
+        persons.filter((val) => val.name.toLowerCase().indexOf(filter) !== -1) :
+        persons;
+
     useEffect(() => {
-        axios
-            .get('http://localhost:3001/persons')
+        personsApi.getAll()
             .then(response => {
                 setPersons(response.data)
-                setPersonsShown(response.data)
             })
     }, [])
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
 
-        if (persons.some((person) => {
+        const existingPerson = persons.find((person) => {
             return person.name === newName;
-        })) {
-            alert(`${newName} is already added to phonebook`)
-            return;
-        }
-
-        setPersons(
-            persons.concat({
-                name: newName,
-                number: newPhone
-            })
-        )
-        setPersonsShown(persons.concat({
+        })
+        const newPerson = {
             name: newName,
             number: newPhone
-        }))
+        }
+
+        if (existingPerson && window.confirm(`Do you want to update the record for ${existingPerson.name}`)) {
+            if (existingPerson) {
+                personsApi.update(existingPerson.id, newPerson)
+                    .then(updatedPerson => {
+                        setPersons(
+                            persons.map(person => person.id === existingPerson.id ? updatedPerson.data : person)
+                        )
+                    })
+                return;
+            }
+        }
+
+        // send request to the server to save
+        personsApi.create(newPerson)
+            .then(response => {
+                const newPerson = response.data;
+                setPersons(persons.concat(newPerson))
+            })
     }
 
     const handleFilterChange = (evt) => {
         const newFilter = evt.target.value
-        setFilter(newFilter)
-
-        if (newFilter.length <= 0) {
-            setPersonsShown(persons);
-            return;
-        }
-
-        setPersonsShown(persons.filter((val) => val.name.toLowerCase().indexOf(newFilter) !== -1));
+        setFilter(newFilter.toLowerCase());
     };
 
     return (
@@ -69,13 +73,7 @@ const App = () => {
             />
 
             <h2>Numbers</h2>
-            <Persons personsShown={personsShown}/>
-
-            {/*<p>*/}
-            {/*    <strong>DEBUG</strong>*/}
-            {/*    {JSON.stringify(persons)}*/}
-            {/*</p>*/}
-
+            <Persons personsShown={personsShown} setPersons={setPersons} persons={persons}/>
         </div>
     )
 }
