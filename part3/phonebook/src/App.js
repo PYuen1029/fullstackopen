@@ -42,6 +42,10 @@ const App = () => {
                         setPersons(
                             persons.map(person => person.id === existingPerson.id ? updatedPerson.data : person)
                         )
+                        setError('')
+                    })
+                    .catch(error => {
+                        setError(error.response.data.error)
                     })
                 return;
             }
@@ -52,6 +56,10 @@ const App = () => {
             .then(response => {
                 const newPerson = response.data;
                 setPersons(persons.concat(newPerson))
+                setError('')
+            })
+            .catch(error => {
+                setError(error.response.data.error);
             })
     }
 

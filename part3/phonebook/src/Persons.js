@@ -30,7 +30,7 @@ const Persons = (props) => {
                         <p style={{
                             display: "inline-block",
                             marginRight: "10px"
-                        }}>{person.name} {person.number}</p>
+                        }}>{person.name} {person.phoneno}</p>
                         <button onClick={() => handleDelete(person.id, person.name)}>
                             Delete
                         </button>
