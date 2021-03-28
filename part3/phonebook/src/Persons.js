@@ -26,7 +26,7 @@ const Persons = (props) => {
         <>
             {personsShown.map((person) => {
                 return (
-                    <div key={person.name}>
+                    <div key={person.id}>
                         <p style={{
                             display: "inline-block",
                             marginRight: "10px"
